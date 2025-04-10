@@ -1,0 +1,236 @@
+<!-- Inspired by https://foxglove.dev/blog/using-rosbridge-with-ros2 -->
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="google" content="notranslate">
+    <title>Hello world</title>
+    <link href="https://cdn.jsdelivr.net/npm/beercss@3.10.4/dist/cdn/beer.min.css" rel="stylesheet">
+    <script type="module" src="https://cdn.jsdelivr.net/npm/beercss@3.10.4/dist/cdn/beer.min.js"></script>
+    <script type="module"
+        src="https://cdn.jsdelivr.net/npm/material-dynamic-colors@1.1.2/dist/cdn/material-dynamic-colors.min.js"></script>
+</head>
+
+<body class="dark">
+    <nav class="left drawer l">
+        <header>
+            <nav>
+                <img src="https://www.beercss.com/favicon.png" class="circle">
+                <h6>Cheers</h6>
+            </nav>
+        </header>
+        <a>
+            <i>home</i>
+            <div>Home</div>
+        </a>
+        <a>
+            <i>search</i>
+            <div>Search</div>
+        </a>
+        <a>
+            <i>share</i>
+            <div>Share</div>
+        </a>
+        <a>
+            <i>more_vert</i>
+            <div>More</div>
+        </a>
+        <div class="divider"></div>
+        <label>Label</label>
+        <a>
+            <i>widgets</i>
+            <div>Widgets</div>
+        </a>
+        <a>
+            <i>chat</i>
+            <div>Chat</div>
+        </a>
+        <a>
+            <i>help</i>
+            <div>Help</div>
+        </a>
+    </nav>
+
+    <nav class="left m">
+        <header>
+            <img src="https://www.beercss.com/favicon.png" class="circle">
+        </header>
+        <a>
+            <i>home</i>
+            <div>Home</div>
+        </a>
+        <a>
+            <i>search</i>
+            <div>Search</div>
+        </a>
+        <a>
+            <i>share</i>
+            <div>Share</div>
+        </a>
+        <a>
+            <i>more_vert</i>
+            <div>More</div>
+        </a>
+    </nav>
+
+    <nav class="bottom s">
+        <a>
+            <i>home</i>
+        </a>
+        <a>
+            <i>search</i>
+        </a>
+        <a>
+            <i>share</i>
+        </a>
+        <a>
+            <i>more_vert</i>
+        </a>
+    </nav>
+
+    <main class="responsive">
+        <h3>Welcome</h3>
+        <h5>Control Emio Remotely!</h5>
+        <div class="field border">
+            <input type="text" id="ip-address" value="127.0.0.1" required pattern="^([0-9]{1,3}\.){3}[0-9]{1,3}$" onchange="handleIpChange()">
+        </div>
+        <p>Connection: <span id="status" style="font-weight: bold;">N/A</span></p>
+        <p><code>/TCP/Frame</code> messages received:
+        <p id="messages" style="font-weight: bold;"></p>
+        </p>
+
+        <details open>
+            <summary>
+                <div class="field middle-align">
+                    <nav>
+                    <div class="max">
+                        <h6>TCPTarget/Frame</h6>
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" id="checkbox-TCPFrame" onchange="togglePublishing('TCP/Frame')">
+                        <span></span>
+                    </label>
+                    </nav>
+                </div>              
+            </summary>
+            <fieldset>
+                <legend>Send to <code>/TCP/Frame</code> topic with the following values:</legend>
+                <div class="field middle-align">
+                    <label class="slider">
+                        <input type="range" value="0" min="-40" max="40" step="0.1" id="x-tcp-frame" oninput="publishTCPFrame()">
+                        <span></span>
+                        <div class="tooltip"></div>
+                    </label>
+                    <span class="helper">X</span>
+                </div>
+
+                <div class="field middle-align">
+                    <label class="slider">
+                        <input type="range" value="-150" min="-190" max="-110" step="0.1" id="y-tcp-frame" oninput="publishTCPFrame()">
+                        <span></span>
+                        <div class="tooltip"></div>
+                    </label>
+                    <span class="helper">Y</span>
+                </div>
+
+                <div class="field middle-align">
+                    <label class="slider">
+                        <input type="range" value="0" min="-40" max="40" step="0.1" id="z-tcp-frame" oninput="publishTCPFrame()">
+                        <span></span>
+                        <div class="tooltip"></div>
+                    </label>
+                    <span class="helper">Z</span>
+                </div>
+            </fieldset>
+        </details>
+
+    </main>
+
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/roslib@1/build/roslib.min.js"></script>
+
+    <script type="text/javascript" type="text/javascript">
+
+        let ipAddress = document.getElementById("ip-address").value;
+        
+
+        // Create ros object to communicate over your Rosbridge connection
+        const ros = new ROSLIB.Ros({ url: `ws://${ipAddress}:9090` });
+
+        // When the Rosbridge server connects, fill the span with id "status" with "successful"
+        ros.on("connection", () => {
+            document.getElementById("status").innerHTML = "successful";
+        });
+
+        // When the Rosbridge server experiences an error, fill the "status" span with the returned error
+        ros.on("error", (error) => {
+            document.getElementById("status").innerHTML = `errored out (${error})`;
+        });
+
+        // When the Rosbridge server shuts down, fill the "status" span with "closed"
+        ros.on("close", () => {
+            document.getElementById("status").innerHTML = "closed";
+        });
+
+        // Create a listener for /my_topic
+        const my_topic_listener = new ROSLIB.Topic({
+            ros,
+            name: "/TCPTarget/Frame",
+            messageType: "std_msgs/Float32MultiArray",
+        });
+
+        // When we receive a message on /my_topic, add its data as a list item to the "messages" ul
+        my_topic_listener.subscribe((message) => {
+            const ul = document.getElementById("messages");
+            ul.innerHTML = message.data;
+        });
+
+        
+        // Create a Publisher
+        const my_topic_publisher = new ROSLIB.Topic({
+            ros,
+            name: "/TCPTarget/Frame",
+            messageType: "std_msgs/Float32MultiArray",
+        });
+
+        // Function to toggle publishing
+        function togglePublishing(topic) {
+            const checkbox = document.querySelector(`#checkbox-TCPFrame`);
+            if (checkbox.checked) {
+                // Start publishing
+                console.log(`Started publishing to ${topic}`);
+            } else {
+                // Stop publishing
+                console.log(`Stopped publishing to ${topic}`);
+            }
+        }
+
+        function publishTCPFrame(){
+            console.log("On change in TCP Frame");
+            const checkbox = document.querySelector(`#checkbox-TCPFrame`);
+            console.log(checkbox.checked);
+            if (checkbox.checked) {
+                const x = parseFloat(document.getElementById("x-tcp-frame").value);
+                const y = parseFloat(document.getElementById("y-tcp-frame").value);
+                const z = parseFloat(document.getElementById("z-tcp-frame").value);
+                // Start publishing
+                console.log(`Onchanged publishing ${x}, ${y}, ${z} to /TCP/Frame`);
+                my_topic_publisher.publish(new ROSLIB.Message({
+                    data: [x, y, z, 0, 0, 0, 1],
+                }));
+            }
+        }
+
+        function handleIpChange() {
+            ipAddress = document.getElementById("ip-address").value;
+            console.log(`IP Address changed to: ${ipAddress}`);
+            ros.close();
+            ros.connect(`ws://${ipAddress}:9090`);
+        }
+
+    </script>
+</body>
+
+</html>
