@@ -1,0 +1,9 @@
+@import url("theme.css");
+
+details:open nav > i::before{
+    content: "expand_more";
+}
+
+details:not(open) nav > i::before{
+    content: "chevron_right";
+}
