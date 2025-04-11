@@ -3,9 +3,14 @@ on:
   - workflow_dispatch
   
 jobs:
-  Deploy:
-    runs-on: ubuntu-latest
+  deploy:
+    runs-on: ubuntu-22.04
+    permissions:
+      contents: write
     steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0    # Fetch all history for .GitInfo and .Lastmod
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v4
         with:
