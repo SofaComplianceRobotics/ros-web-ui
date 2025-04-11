@@ -22,9 +22,16 @@
             <button class="circle" onclick="mode()"><i>light_mode</i></button>
         </div>
         <h5>Control Emio Remotely!</h5>
-        <div class="field border label">
-            <input type="text" id="ip-address" value="127.0.0.1" required pattern="^([0-9]{1,3}\.){3}[0-9]{1,3}$" onchange="handleIpChange()">
-            <label>IP Address</label>
+        <div class="row">
+            <div class="field border label">
+                <input type="text" id="ip-address" value="127.0.0.1" required pattern="^([0-9]{1,3}\.){3}[0-9]{1,3}$" onchange="handleIpChange()">
+                <label>IP Address</label>
+            </div>
+            <label class="checkbox">
+                <input type="checkbox" id="ssl" checked>
+                <span>SSL</span>
+              </label>              
+            <button onclick="connect()">Connect</button>
         </div>
         <p>Connection: <span id="status" style="font-weight: bold;">N/A</span></p>
         <p><code>/TCPTarget/Frame</code> messages received:
@@ -90,25 +97,23 @@
         }
 
         let ipAddress = document.getElementById("ip-address").value;
-        
+        let protocol = () => {return document.getElementById("ssl").checked? "wss" : "ws"};
 
         // Create ros object to communicate over your Rosbridge connection
-        const ros = new ROSLIB.Ros({ url: `ws://${ipAddress}:9090` });
-
+        const ros = new ROSLIB.Ros();
         // When the Rosbridge server connects, fill the span with id "status" with "successful"
         ros.on("connection", () => {
             document.getElementById("status").innerHTML = "successful";
         });
-
         // When the Rosbridge server experiences an error, fill the "status" span with the returned error
         ros.on("error", (error) => {
             document.getElementById("status").innerHTML = `errored out (${error})`;
         });
-
         // When the Rosbridge server shuts down, fill the "status" span with "closed"
         ros.on("close", () => {
             document.getElementById("status").innerHTML = "closed";
         });
+
 
         // Create a listener for /my_topic
         const my_topic_listener = new ROSLIB.Topic({
@@ -156,11 +161,16 @@
             }
         }
 
+        function connect() {
+            ros.close();
+            ipAddress = document.getElementById("ip-address").value;
+            console.log(`Connecting to ${protocol()}://${ipAddress}:9090`);
+            ros.connect(`${protocol()}://${ipAddress}:9090`);
+        }
+
         function handleIpChange() {
             ipAddress = document.getElementById("ip-address").value;
             console.log(`IP Address changed to: ${ipAddress}`);
-            ros.close();
-            ros.connect(`ws://${ipAddress}:9090`);
         }
 
     </script>
