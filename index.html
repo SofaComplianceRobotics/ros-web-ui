@@ -7,7 +7,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="google" content="notranslate">
-    <title>Hello world</title>
+    <link rel="shortcut icon" href="img/logo_sofa_robotics_light.svg" type="image/x-icon" media="(prefers-color-scheme: light)">
+    <link rel="shortcut icon" href="img/logo_sofa_robotics_dark.svg" type="image/x-icon" media="(prefers-color-scheme: dark)">
+    <title>SOFA Robotics Remote Control</title>
     <link href="https://cdn.jsdelivr.net/npm/beercss@3.10.4/dist/cdn/beer.min.css" rel="stylesheet">
     <script type="module" src="https://cdn.jsdelivr.net/npm/beercss@3.10.4/dist/cdn/beer.min.js"></script>
     <script type="module"
@@ -15,53 +17,96 @@
     <link rel="stylesheet" href="main.css">
 </head>
 
-<body>
+<body class="light">
     <main class="responsive">
         <div class="row">
-            <h3 class="max">Welcome  </h3>
+            <picture class="logo">
+            </picture>
+            <h3 class="max">SOFA Robotics Remote Control</h3>
             <button class="circle" onclick="mode()"><i>light_mode</i></button>
         </div>
-        <h5>Control Emio Remotely!</h5>
-        <div class="row">
-            <div class="field border label">
-                <input type="text" id="ip-address" value="127.0.0.1" required pattern="^([0-9]{1,3}\.){3}[0-9]{1,3}$" onchange="handleIpChange()">
-                <label>IP Address</label>
-            </div>
-            <label class="checkbox">
-                <input type="checkbox" id="ssl" checked>
-                <span>SSL</span>
-              </label>              
-            <button onclick="connect()">Connect</button>
-        </div>
-        <p>Connection: <span id="status" style="font-weight: bold;">N/A</span></p>
-        <p><code>/TCPTarget/Frame</code> messages received:
-        <p id="messages" style="font-family: monospace;margin-left: 1em;;"></p>
-        </p>
 
+        <article>
+            <details>
+                <summary>
+                    <div class="field middle-align">
+                        <nav>
+                            <i></i>
+                            <div class="max">
+                                <h6>Configuration <i>settings</i></h6>
+                            </div>
+                        </nav>
+                    </div>  
+                </summary>
+                <!-- CONNECTION -->
+                <fieldset>
+                    <legend>Server Connection</legend>
+                    <div class="row">
+                        <div class="field border label">
+                            <input type="text" id="ip-address" value="127.0.0.1" required pattern="^([0-9]{1,3}\.){3}[0-9]{1,3}$" onchange="handleIpChange()">
+                            <label>IP Address</label>
+                        </div>
+                        <label class="checkbox">
+                            <input type="checkbox" id="ssl" checked>
+                            <span>SSL</span>
+                        </label>              
+                        <button onclick="connect()">Connect</button>
+                        <div id="ssl-page-container" style="display: none;">
+                            Got to <a id="ssl-page" class="link" target="_blank">this page</a> to enable the communication by accepting to go through the security warning. <br>
+                        </div>
+                        <p>Connection status: <span id="status" style="font-weight: bold;"></span></p>
+                    </div>
+                </fieldset>
+                <!-- PUBLISH -->
+                 <fieldset>
+                    <legend>Publication</legend>
+                     <div class="left-align row">
+                             <h6>Publish</h6>
+                         <label class="switch">
+                             <input type="checkbox" id="checkbox-TCPFrame" onchange="togglePublishing('TCP/Frame')">
+                             <span></span>
+                         </label>
+                     </div>
+                 </fieldset>
+                <!-- DEBUG -->
+                 <fieldset>
+                    <legend>Debug</legend>
+                     <details>
+                         <summary>
+                             <nav>
+                                 <i></i>
+                                 <h6>Show ROS Debug</h6>
+                             </nav>
+                         </summary>
+                         <p>
+                             <code>/TCPTarget/Frame</code> messages received:
+                             <p id="messages" style="font-family: monospace;margin-left: 1em;;"></p>
+                         </p>
+                     </details>
+                 </fieldset>
+            </details>
+        </article>
+
+        <article>
         <details open>
             <summary>
                 <div class="field middle-align">
                     <nav>
                         <i></i>
                         <div class="max">
-                            <h6>TCPTarget/Frame</h6>
+                            <h6>TCP Target position (mm)</h6>
                         </div>
-                        <label class="switch">
-                            <input type="checkbox" id="checkbox-TCPFrame" onchange="togglePublishing('TCP/Frame')">
-                            <span></span>
-                        </label>
                     </nav>
                 </div>              
             </summary>
             <fieldset>
-                <legend>Send to <code>/TCPTarget/Frame</code> topic with the following values:</legend>
                 <div class="field middle-align">
                     <label class="slider">
                         <input type="range" value="0" min="-40" max="40" step="0.1" id="x-tcp-frame" oninput="publishTCPFrame()">
                         <span></span>
                         <div class="tooltip"></div>
                     </label>
-                    <span class="helper">X</span>
+                    <span class="helper x-axis axis-label">X</span>
                 </div>
 
                 <div class="field middle-align">
@@ -70,7 +115,7 @@
                         <span></span>
                         <div class="tooltip"></div>
                     </label>
-                    <span class="helper">Y</span>
+                    <span class="helper y-axis axis-label">Y</span>
                 </div>
 
                 <div class="field middle-align">
@@ -79,10 +124,39 @@
                         <span></span>
                         <div class="tooltip"></div>
                     </label>
-                    <span class="helper">Z</span>
+                    <span class="helper z-axis axis-label">Z</span>
                 </div>
             </fieldset>
         </details>
+    </article>
+
+       
+        <article>
+            <details open>
+                <summary>
+                    <div class="field middle-align">
+                        <nav>
+                            <i></i>
+                            <div class="max">
+                                <h6>Accessories</h6>
+                            </div>
+                        </nav>
+                    </div>              
+                </summary>
+                <fieldset>
+                    <div class="field middle-align">
+                        <label class="slider">
+                            <input type="range" value="50" min="5" max="70" step="0.1" id="gripper-value" oninput="publishGripper()">
+                            <span></span>
+                            <div class="tooltip"></div>
+                        </label>
+                        <span class="helper">Gripper's opening (mm)</span>
+                    </div>
+                </fieldset>
+            </details>
+        </article>
+              
+            
 
     </main>
 
@@ -98,20 +172,22 @@
 
         let ipAddress = document.getElementById("ip-address").value;
         let protocol = () => {return document.getElementById("ssl").checked? "wss" : "ws"};
+        let sslPage = document.getElementById("ssl-page");
+        sslPage.href = `https://${ipAddress}:9090`;
 
         // Create ros object to communicate over your Rosbridge connection
         const ros = new ROSLIB.Ros();
         // When the Rosbridge server connects, fill the span with id "status" with "successful"
         ros.on("connection", () => {
-            document.getElementById("status").innerHTML = "successful";
+            document.getElementById("status").innerHTML = "<i>check_circle</i>";
         });
         // When the Rosbridge server experiences an error, fill the "status" span with the returned error
         ros.on("error", (error) => {
-            document.getElementById("status").innerHTML = `errored out (${error})`;
+            document.getElementById("status").innerHTML = `<i>check_circle</i> (${error})`;
         });
         // When the Rosbridge server shuts down, fill the "status" span with "closed"
         ros.on("close", () => {
-            document.getElementById("status").innerHTML = "closed";
+            document.getElementById("status").innerHTML = "<i>cancel</i>";
         });
 
 
@@ -129,10 +205,16 @@
         });
 
         
-        // Create a Publisher
-        const my_topic_publisher = new ROSLIB.Topic({
+        // Create a Publisher for /TCPTarget/Frame
+        const tcp_frame_publisher = new ROSLIB.Topic({
             ros,
             name: "/TCPTarget/Frame",
+            messageType: "std_msgs/Float32MultiArray",
+        });
+
+        const gripper_publisher = new ROSLIB.Topic({
+            ros,
+            name: "/Gripper",
             messageType: "std_msgs/Float32MultiArray",
         });
 
@@ -155,8 +237,19 @@
                 const y = parseFloat(document.getElementById("y-tcp-frame").value);
                 const z = parseFloat(document.getElementById("z-tcp-frame").value);
                 // Start publishing
-                my_topic_publisher.publish(new ROSLIB.Message({
+                tcp_frame_publisher.publish(new ROSLIB.Message({
                     data: [x, y, z, 0, 0, 0, 1],
+                }));
+            }
+        }
+
+        function publishGripper() {
+            const checkbox = document.querySelector(`#checkbox-TCPFrame`);
+            if (checkbox.checked) {
+                const gripperValue = parseFloat(document.getElementById("gripper-value").value);
+                // Start publishing
+                gripper_publisher.publish(new ROSLIB.Message({
+                    data: [gripperValue],
                 }));
             }
         }
@@ -170,6 +263,8 @@
 
         function handleIpChange() {
             ipAddress = document.getElementById("ip-address").value;
+            sslPage = document.getElementById("ssl-page");
+            sslPage.href = `https://${ipAddress}:9090`;
             console.log(`IP Address changed to: ${ipAddress}`);
         }
 

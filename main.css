@@ -1,9 +1,47 @@
 @import url("theme.css");
 
-details:open nav > i::before{
+details:open > summary nav > i::before{
     content: "expand_more";
 }
 
-details:not(open) nav > i::before{
+details:not(open) > summary nav > i::before{
     content: "chevron_right";
+}
+
+details {
+    margin-top: 1em;
+}
+
+body.dark .logo::before{
+    content: url("img/logo_sofa_robotics_dark.svg");
+}
+
+body.light .logo::before{
+    content: url("img/logo_sofa_robotics_light.svg");
+} 
+
+#ssl-page-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+.axis-label{
+    border-left:red solid 2px;
+    border-radius: 0;
+    padding-left: 0.5em;
+}
+
+.x-axis{
+    border-color: red;
+}
+
+.y-axis{
+    border-color: green;
+}
+
+.z-axis{
+    border-color: blue;
 }
