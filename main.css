@@ -20,14 +20,6 @@ body.light .logo::before{
     content: url("img/logo_sofa_robotics_light.svg");
 } 
 
-#ssl-page-container{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-}
-
 .axis-label{
     border-left:red solid 2px;
     border-radius: 0;
