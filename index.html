@@ -7,8 +7,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="google" content="notranslate">
-    <link rel="shortcut icon" href="img/logo_sofa_robotics_light.svg" type="image/x-icon" media="(prefers-color-scheme: light)">
-    <link rel="shortcut icon" href="img/logo_sofa_robotics_dark.svg" type="image/x-icon" media="(prefers-color-scheme: dark)">
+    <link rel="shortcut icon" href="img/logo_sofa_robotics_light.svg" type="image/x-icon"
+        media="(prefers-color-scheme: light)">
+    <link rel="shortcut icon" href="img/logo_sofa_robotics_dark.svg" type="image/x-icon"
+        media="(prefers-color-scheme: dark)">
     <title>SOFA Robotics Remote Control</title>
     <link href="https://cdn.jsdelivr.net/npm/beercss@3.10.4/dist/cdn/beer.min.css" rel="stylesheet">
     <script type="module" src="https://cdn.jsdelivr.net/npm/beercss@3.10.4/dist/cdn/beer.min.js"></script>
@@ -23,7 +25,8 @@
             <picture class="logo">
             </picture>
             <h3 class="max">SOFA Robotics Remote Control</h3>
-            <button class="circle" onclick="mode()"><i>light_mode</i></button>
+            <button class="circle extra" onclick="mode()"><i>light_mode</i></button>
+              
         </div>
 
         <article>
@@ -36,73 +39,79 @@
                                 <h6>Configuration <i>settings</i></h6>
                             </div>
                         </nav>
-                    </div>  
+                    </div>
                 </summary>
                 <!-- CONNECTION -->
                 <fieldset>
                     <legend>Server Connection</legend>
-                    <div class="row">
-                        <div class="field border label">
-                            <input type="text" id="ip-address" value="127.0.0.1" required pattern="^([0-9]{1,3}\.){3}[0-9]{1,3}$" onchange="handleIpChange()">
-                            <label>IP Address</label>
-                        </div>
-                        <label class="checkbox">
-                            <input type="checkbox" id="ssl" checked>
-                            <span>SSL</span>
-                        </label>              
-                        <button onclick="connect()">Connect</button>
-                        <div id="ssl-page-container" style="display: none;">
-                            Got to <a id="ssl-page" class="link" target="_blank">this page</a> to enable the communication by accepting to go through the security warning. <br>
-                        </div>
-                        <p>Connection status: <span id="status" style="font-weight: bold;"></span></p>
+                    <div class="field border label">
+                        <input type="text" id="ip-address" value="127.0.0.1" required
+                            pattern="^([0-9]{1,3}\.){3}[0-9]{1,3}$" onchange="handleIpChange()">
+                        <label>IP Address</label>
                     </div>
+                    <div class="row top-align">
+                        <label class="switch">
+                            <input type="checkbox" id="checkbox-ssl" onchange="toggleSSL()">
+                            <span></span>
+                        </label>
+                        <p>SSL</p>
+                        <p>|</p>
+                        <p id="ssl-page-container" class="max" style="display: block;"> Go to <a id="ssl-page" class="link"
+                                target="_blank">this page</a> to enable the communication by accepting to go through the
+                            security warning. <br>
+                        </p>
+                    </div>
+                    <div class="row top-align">
+                        <!-- <button onclick="connect()">Connect</button> -->
+                        <label class="switch">
+                            <input type="checkbox" id="checkbox-connect" onchange="handleConnect()">
+                            <span></span>
+                        </label>
+                        <p>Connect</p>
+                        <p>|</p>
+                        <p class="max">Connection status: <span id="status" style="color: var(--secondary)">not connected</span></p>
+                    </div>
+
                 </fieldset>
                 <!-- PUBLISH -->
-                 <fieldset>
+                <fieldset>
                     <legend>Publication</legend>
-                     <div class="left-align row">
-                             <h6>Publish</h6>
-                         <label class="switch">
-                             <input type="checkbox" id="checkbox-TCPFrame" onchange="togglePublishing('TCP/Frame')">
-                             <span></span>
-                         </label>
-                     </div>
-                 </fieldset>
+                    <div class="left-align row">
+                        <label class="switch">
+                            <input type="checkbox" id="checkbox-publish" onchange="togglePublishing('TCP/Frame')">
+                            <span></span>
+                        </label>
+                        <p>Publish</p>
+                    </div>
+                </fieldset>
                 <!-- DEBUG -->
-                 <fieldset>
+                <fieldset>
                     <legend>Debug</legend>
-                     <details>
-                         <summary>
-                             <nav>
-                                 <i></i>
-                                 <h6>Show ROS Debug</h6>
-                             </nav>
-                         </summary>
-                         <p>
-                             <code>/TCPTarget/Frame</code> messages received:
-                             <p id="messages" style="font-family: monospace;margin-left: 1em;;"></p>
-                         </p>
-                     </details>
-                 </fieldset>
+                    <details>
+                        <summary>
+                            <nav>
+                                <i></i>
+                                <p>Show ROS Debug</p>
+                            </nav>
+                        </summary>
+                        <p>
+                            <code>/TCPTarget/Frame</code> messages received:
+                        <p id="messages" style="font-family: monospace;margin-left: 1em;;"></p>
+                        </p>
+                    </details>
+                </fieldset>
             </details>
         </article>
 
         <article>
-        <details open>
-            <summary>
-                <div class="field middle-align">
-                    <nav>
-                        <i></i>
-                        <div class="max">
-                            <h6>TCP Target position (mm)</h6>
-                        </div>
-                    </nav>
-                </div>              
-            </summary>
+            <div class="max">
+                <h6>TCP Target position (mm)</h6>
+            </div>
             <fieldset>
                 <div class="field middle-align">
                     <label class="slider">
-                        <input type="range" value="0" min="-40" max="40" step="0.1" id="x-tcp-frame" oninput="publishTCPFrame()">
+                        <input type="range" value="0" min="-40" max="40" step="0.1" id="x-tcp-frame"
+                            oninput="publishTCPFrame()">
                         <span></span>
                         <div class="tooltip"></div>
                     </label>
@@ -111,7 +120,8 @@
 
                 <div class="field middle-align">
                     <label class="slider">
-                        <input type="range" value="-150" min="-190" max="-110" step="0.1" id="y-tcp-frame" oninput="publishTCPFrame()">
+                        <input type="range" value="-150" min="-190" max="-110" step="0.1" id="y-tcp-frame"
+                            oninput="publishTCPFrame()">
                         <span></span>
                         <div class="tooltip"></div>
                     </label>
@@ -120,43 +130,35 @@
 
                 <div class="field middle-align">
                     <label class="slider">
-                        <input type="range" value="0" min="-40" max="40" step="0.1" id="z-tcp-frame" oninput="publishTCPFrame()">
+                        <input type="range" value="0" min="-40" max="40" step="0.1" id="z-tcp-frame"
+                            oninput="publishTCPFrame()">
                         <span></span>
                         <div class="tooltip"></div>
                     </label>
                     <span class="helper z-axis axis-label">Z</span>
                 </div>
             </fieldset>
-        </details>
-    </article>
-
-       
-        <article>
-            <details open>
-                <summary>
-                    <div class="field middle-align">
-                        <nav>
-                            <i></i>
-                            <div class="max">
-                                <h6>Accessories</h6>
-                            </div>
-                        </nav>
-                    </div>              
-                </summary>
-                <fieldset>
-                    <div class="field middle-align">
-                        <label class="slider">
-                            <input type="range" value="50" min="5" max="70" step="0.1" id="gripper-value" oninput="publishGripper()">
-                            <span></span>
-                            <div class="tooltip"></div>
-                        </label>
-                        <span class="helper">Gripper's opening (mm)</span>
-                    </div>
-                </fieldset>
-            </details>
         </article>
-              
-            
+
+
+        <article>
+            <div class="max">
+                <h6>Accessories</h6>
+            </div>
+            <fieldset>
+                <div class="field middle-align">
+                    <label class="slider">
+                        <input type="range" value="50" min="5" max="70" step="0.1" id="gripper-value"
+                            oninput="publishGripper()">
+                        <span></span>
+                        <div class="tooltip"></div>
+                    </label>
+                    <span class="helper">Gripper's opening (mm)</span>
+                </div>
+            </fieldset>
+        </article>
+
+
 
     </main>
 
@@ -171,7 +173,7 @@
         }
 
         let ipAddress = document.getElementById("ip-address").value;
-        let protocol = () => {return document.getElementById("ssl").checked? "wss" : "ws"};
+        let protocol = () => { return document.getElementById("checkbox-ssl").checked ? "wss" : "ws" };
         let sslPage = document.getElementById("ssl-page");
         sslPage.href = `https://${ipAddress}:9090`;
 
@@ -179,15 +181,15 @@
         const ros = new ROSLIB.Ros();
         // When the Rosbridge server connects, fill the span with id "status" with "successful"
         ros.on("connection", () => {
-            document.getElementById("status").innerHTML = "<i>check_circle</i>";
+            document.getElementById("status").innerHTML = "connected <i>check_circle</i>";
         });
         // When the Rosbridge server experiences an error, fill the "status" span with the returned error
         ros.on("error", (error) => {
-            document.getElementById("status").innerHTML = `<i>check_circle</i> (${error})`;
+            document.getElementById("status").innerHTML = `error <i>check_circle</i> (${error})`;
         });
         // When the Rosbridge server shuts down, fill the "status" span with "closed"
         ros.on("close", () => {
-            document.getElementById("status").innerHTML = "<i>cancel</i>";
+            document.getElementById("status").innerHTML = "closed <i>cancel</i>";
         });
 
 
@@ -204,7 +206,7 @@
             ul.innerHTML = message.data;
         });
 
-        
+
         // Create a Publisher for /TCPTarget/Frame
         const tcp_frame_publisher = new ROSLIB.Topic({
             ros,
@@ -220,7 +222,7 @@
 
         // Function to toggle publishing
         function togglePublishing(topic) {
-            const checkbox = document.querySelector(`#checkbox-TCPFrame`);
+            const checkbox = document.querySelector(`#checkbox-publish`);
             if (checkbox.checked) {
                 // Start publishing
                 console.log(`Started publishing to ${topic}`);
@@ -230,8 +232,8 @@
             }
         }
 
-        function publishTCPFrame(){
-            const checkbox = document.querySelector(`#checkbox-TCPFrame`);
+        function publishTCPFrame() {
+            const checkbox = document.querySelector(`#checkbox-publish`);
             if (checkbox.checked) {
                 const x = parseFloat(document.getElementById("x-tcp-frame").value);
                 const y = parseFloat(document.getElementById("y-tcp-frame").value);
@@ -244,13 +246,35 @@
         }
 
         function publishGripper() {
-            const checkbox = document.querySelector(`#checkbox-TCPFrame`);
+            const checkbox = document.querySelector(`#checkbox-publish`);
             if (checkbox.checked) {
                 const gripperValue = parseFloat(document.getElementById("gripper-value").value);
                 // Start publishing
                 gripper_publisher.publish(new ROSLIB.Message({
                     data: [gripperValue],
                 }));
+            }
+        }
+
+        function toggleSSL() {
+            const checkbox = document.querySelector(`#checkbox-ssl`);
+            const sslPageContainer = document.getElementById("ssl-page-container");
+            if (checkbox.checked) {
+                sslPageContainer.style.display = "block";
+                console.log(`SSL enabled.`);
+            } else {
+                sslPageContainer.style.display = "none";
+                console.log(`SSL disabled.`);
+            }
+        }
+
+        function handleConnect(){
+            const checkbox = document.querySelector(`#checkbox-connect`);
+            if (checkbox.checked) {
+                connect();
+            } else {
+                ros.close();
+                document.getElementById("status").innerHTML = "closed <i>cancel</i>";
             }
         }
 
@@ -267,6 +291,25 @@
             sslPage.href = `https://${ipAddress}:9090`;
             console.log(`IP Address changed to: ${ipAddress}`);
         }
+
+        function onload() {
+            // Set the initial state of the SSL page link
+            const checkbox = document.querySelector(`#checkbox-ssl`);
+            checkbox.checked = true;
+            const sslPageContainer = document.getElementById("ssl-page-container");
+            sslPageContainer.style.display = "block";
+
+            // Set the initial state of the connection status
+            const connectCheckbox = document.querySelector(`#checkbox-connect`);
+            connectCheckbox.checked = false;
+
+            // Set the initial state of the publish checkbox
+            const publishCheckbox = document.querySelector(`#checkbox-publish`);
+            publishCheckbox.checked = false;
+
+        }
+
+        onload();
 
     </script>
 </body>
