@@ -1,0 +1,13 @@
+name: Deploy to Github Pages
+on:
+  - workflow_dispatch
+  
+jobs:
+  Deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: .
