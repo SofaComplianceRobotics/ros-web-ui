@@ -27,11 +27,11 @@ source /opt/ros/jazzy/setup.bash
 You can run one of hte following commands to run the rosbridge server:
 
 ```bash
-ros2 launch rosbridge_server ./back/rosbridge_secure_websocket_launch.xml
+ros2 launch ./back/rosbridge_secure_websocket_launch.xml
 ```
 or
 ```bash
-python ./backros_server_launch.py
+ros2 launch ./backros_server_launch.py
 ```
 
 These commands launch a rosbridge server that listens on port 9090 with SSL support. The server will be running on the machine where you run the command and shold be on the same network as the machine where you will run Sofa Robotics.

@@ -28,3 +28,7 @@ sudo apt install ros-jazzy-turtlesim
 sudo apt-get install ros-jazzy-rosbridge-suite
 
 source /opt/ros/jazzy/setup.bash
+
+# install yaml python module
+sudo apt install python3-yaml
+pip install pyyaml

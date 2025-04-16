@@ -4,8 +4,8 @@ from launch.conditions import IfCondition, UnlessCondition
 from launch_ros.actions import Node
 from launch.substitutions import LaunchConfiguration
 
-certfile = './server_cert.pem'
-keyfile = './server_key.pem'
+certfile = './back/server_cert.pem'
+keyfile = './back/server_key.pem'
 
 if certfile and keyfile:
     # Check if the certificate and key file exist

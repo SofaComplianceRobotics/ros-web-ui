@@ -4,8 +4,8 @@
   <arg name="port" default="9090" />
   <arg name="address" default="" />
   <arg name="ssl" default="true" />
-  <arg name="certfile" default="/home/ubuntu/rosbridge_ssl/server_cert.pem" />
-  <arg name="keyfile" default="/home/ubuntu/rosbridge_ssl/server_key.pem" />
+  <arg name="certfile" default="./back/server_cert.pem" />
+  <arg name="keyfile" default="./back/server_key.pem" />
   <arg name="authenticate" default="false" />
 
   <arg name="namespace" default="" />
