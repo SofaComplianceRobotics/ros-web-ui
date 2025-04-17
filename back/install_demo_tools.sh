@@ -31,4 +31,4 @@ source /opt/ros/jazzy/setup.bash
 
 # install yaml python module
 sudo apt install python3-yaml
-pip install pyyaml
+python -m pip install pyyaml
