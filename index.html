@@ -62,7 +62,6 @@
                         </p>
                     </div>
                     <div class="row top-align">
-                        <!-- <button onclick="connect()">Connect</button> -->
                         <label class="switch">
                             <input type="checkbox" id="checkbox-connect" onchange="handleConnect()">
                             <span></span>
@@ -186,10 +185,12 @@
         // When the Rosbridge server experiences an error, fill the "status" span with the returned error
         ros.on("error", (error) => {
             document.getElementById("status").innerHTML = `error <i>check_circle</i> (${error})`;
+            document.getElementById("checkbox-connect").checked = false;
         });
         // When the Rosbridge server shuts down, fill the "status" span with "closed"
         ros.on("close", () => {
             document.getElementById("status").innerHTML = "closed <i>cancel</i>";
+            document.getElementById("checkbox-connect").checked = false;
         });
 
 
@@ -259,6 +260,7 @@
         function toggleSSL() {
             const checkbox = document.querySelector(`#checkbox-ssl`);
             const sslPageContainer = document.getElementById("ssl-page-container");
+            handleConnect()
             if (checkbox.checked) {
                 sslPageContainer.style.display = "block";
                 console.log(`SSL enabled.`);
