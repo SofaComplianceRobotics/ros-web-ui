@@ -51,7 +51,7 @@ The easist way is to open EmioLabs and launch SofA Robotics from the sandbox wit
 
 __⚠️ Don't forget to source ROS2!__
 
-__⚠️ If running on Unix system, don't forget to run `sudo chmod /dev/ttyUSB0` in a terminal to be able to see the robot__
+__⚠️ If running on Unix system, don't forget to run `sudo chmod 777 /dev/ttyUSB0` in a terminal to be able to see the robot__
 
 
 #### 1. Run the simulation
