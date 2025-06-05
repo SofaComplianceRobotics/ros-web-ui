@@ -43,7 +43,7 @@ The server will be running on the machine where you run the command and should b
 You can use the built-in web server in Python or any other web server you prefer or use the github page that hosts the `index.html` file in the `front` folder.
 
 
-Or you can use the online page [https://sofacompliancerobotics.github.io/ros-web-ui/](https://sofacompliancerobotics.github.io/ros-web-ui/).
+Or you can use the online page [https://sofacompliancerobotics.github.io/ros2-web-ui/](https://sofacompliancerobotics.github.io/ros2-web-ui/).
 
 ### Sofa Robotics
 Open Sofa robotics with the right simulation.
@@ -68,7 +68,7 @@ __⚠️ If running on Unix system, don't forget to run `sudo chmod 777 /dev/tty
 ## Usage
 - Get the IP address of the rosbridge running machine
     - this should be something in the form of `192.168.x.x` or `127.0.0.1` if you are running it on the same machine
-- Open `index.html` either by double clicking on the file or directly go online to [https://sofacompliancerobotics.github.io/ros-web-ui/](https://sofacompliancerobotics.github.io/ros-web-ui/)
+- Open `index.html` either by double clicking on the file or directly go online to [https://sofacompliancerobotics.github.io/ros2-web-ui/](https://sofacompliancerobotics.github.io/ros2-web-ui/)
 - Int the `Settings` section of the page
     - Enter the IP address in the field on the webpage
     - Make sure `SSL` is enabled if you are using a secure connection (https://) or disabled if you are using an insecure connection (http://) (default is enabled)
