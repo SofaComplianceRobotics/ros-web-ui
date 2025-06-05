@@ -1,4 +1,4 @@
-# ROS Web UI
+# ROS2 Web UI
 This is a simple web interface to control a ROS2 robot using rosbridge and a web browser. It allows you to send commands via ROS2 using a web page.
 
 ## Requirements
