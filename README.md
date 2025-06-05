@@ -1,6 +1,8 @@
 # ROS2 Web UI
 This is a simple web interface to control a ROS2 robot using rosbridge and a web browser. It allows you to send commands via ROS2 using a web page.
 
+<img width="50%" src="ros2-web-ui.png"/>
+
 ## Requirements
 You need to have Python on a Ubuntu machine. 
 
