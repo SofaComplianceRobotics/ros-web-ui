@@ -4,7 +4,7 @@ This is a simple web interface to control a ROS2 robot using rosbridge and a web
 <img width="50%" src="ros2-web-ui.png"/>
 
 ## Requirements
-You need to have Python on a Ubuntu machine. 
+You need to have Python **3.12** on a Ubuntu machine. 
 
 You can use the [back/install_demo_tools.sh](./back/install_demo_tools.sh) script to install the requirements for you. It will install the following:
 - ros2
